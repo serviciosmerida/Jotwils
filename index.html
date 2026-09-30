@@ -53,6 +53,15 @@ input#search::placeholder{color:var(--muted)}
 .code{margin-top:6px;display:inline-block;background:var(--panel2);border:1px solid var(--border);border-radius:6px;
   padding:2px 8px;font-size:0.72rem;font-weight:600;color:var(--accent2);letter-spacing:.03em}
 .empty{color:var(--muted);text-align:center;padding:50px 10px;font-size:0.9rem}
+.photo{cursor:pointer}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;
+  z-index:1000;padding:20px;padding-top:calc(20px + env(safe-area-inset-top,0px));
+  padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+.lightbox.open{display:flex}
+.lightbox img{max-width:100%;max-height:100%;border-radius:10px;object-fit:contain}
+.lightbox-close{position:fixed;top:calc(16px + env(safe-area-inset-top,0px));right:16px;
+  width:40px;height:40px;border-radius:50%;background:var(--panel);border:1px solid var(--border);
+  color:var(--text);font-size:1.3rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
 </style>
 </head>
 <body>
@@ -72,6 +81,11 @@ input#search::placeholder{color:var(--muted)}
   <div class="count" id="count"></div>
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty">Selecciona una marca para ver tus carros.</div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-close" id="lightboxClose">✕</div>
+  <img id="lightboxImg" src="" alt="">
 </div>
 
 <script>
@@ -226,6 +240,11 @@ const count = document.getElementById('count');
 const empty = document.getElementById('empty');
 document.getElementById('totalCount').textContent = data.length;
 
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+document.getElementById('lightboxClose').addEventListener('click', ()=>lightbox.classList.remove('open'));
+lightbox.addEventListener('click', (e)=>{ if(e.target===lightbox) lightbox.classList.remove('open'); });
+
 const brandCounts = {};
 data.forEach(c => brandCounts[c.marca] = (brandCounts[c.marca]||0)+1);
 Object.keys(brandCounts).sort().forEach(b=>{
@@ -257,13 +276,21 @@ function render(){
       '<div class="info"><div class="name">' + c.modelo + '</div>' +
       '<div class="code">' + c.codigo + '</div></div>';
     const img=card.querySelector('img');
+    const photoDiv=card.querySelector('.photo');
     img.onerror=()=>{
       img.remove();
+      photoDiv.style.cursor='default';
       const ph=document.createElement('div');
       ph.className='ph';
       ph.innerHTML='<span>🏎️</span><span>Sin foto</span>';
-      card.querySelector('.photo').appendChild(ph);
+      photoDiv.appendChild(ph);
     };
+    photoDiv.addEventListener('click',()=>{
+      if(!photoDiv.contains(img)) return;
+      lightboxImg.src=img.src;
+      lightboxImg.alt=c.modelo;
+      lightbox.classList.add('open');
+    });
     grid.appendChild(card);
   });
 }
