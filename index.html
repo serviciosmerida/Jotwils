@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>jotwils</title>
-<link rel="icon" type="image/jpeg" href="logocarros.jpg">
-<link rel="apple-touch-icon" href="logocarros.jpg">
+<link rel="icon" type="image/jpeg" href="logocarros.jpeg">
+<link rel="apple-touch-icon" href="logocarros.jpeg">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0c0e13">
 <style>
@@ -58,7 +58,7 @@ input#search::placeholder{color:var(--muted)}
 <body>
 <div class="wrap">
   <div class="brand">
-    <img src="logocarros.jpg" alt="jotwils" class="logo" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-fb',textContent:'🏎️'}))">
+    <img src="logocarros.jpeg" alt="jotwils" class="logo" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-fb',textContent:'🏎️'}))">
     <span class="brand-name">jotwils</span>
   </div>
   <h1>Mi Colección</h1>
@@ -253,7 +253,7 @@ function render(){
     const card=document.createElement('div');
     card.className='card';
     card.innerHTML =
-      '<div class="photo"><img src="CARROS/' + c.codigo + '.jpg" alt="' + c.modelo + '"></div>' +
+      '<div class="photo"><img src="' + c.codigo + '.jpeg" alt="' + c.modelo + '"></div>' +
       '<div class="info"><div class="name">' + c.modelo + '</div>' +
       '<div class="code">' + c.codigo + '</div></div>';
     const img=card.querySelector('img');
