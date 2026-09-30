@@ -8,12 +8,12 @@
   "theme_color": "#0c0e13",
   "icons": [
     {
-      "src": "logocarros.jpg",
+      "src": "logocarros.jpeg",
       "sizes": "192x192",
       "type": "image/jpeg"
     },
     {
-      "src": "logocarros.jpg",
+      "src": "logocarros.jpeg",
       "sizes": "512x512",
       "type": "image/jpeg"
     }
