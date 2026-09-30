@@ -130,7 +130,7 @@ const data = [
   {marca:"Ford", modelo:"92 FORD MUSTANG", codigo:"T14"},
   {marca:"Land Rover", modelo:"LAND ROVER DEFENDER 90", codigo:"GHB38"},
   {marca:"Nissan", modelo:"SKYLINE 2000 GT-R LBWK 1", codigo:"HRY851"},
-  {marca:"Acura", modelo:"90 ACURA NSX", codigo:"CFH16"},
+  {marca:"Honda", modelo:"90 ACURA NSX", codigo:"CFH16"},
   {marca:"Dodge", modelo:"1978 DODGE LI´L RED EXPRESS TRUCK", codigo:"U11N"},
   {marca:"DeLorean", modelo:"DeLorean 1", codigo:"R09311"},
   {marca:"Ford", modelo:"71 FORS MUSTANG FUNNY CAR", codigo:"FYC43"},
@@ -297,6 +297,12 @@ function render(){
 select.addEventListener('change',render);
 search.addEventListener('input',render);
 render();
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
 </script>
 </body>
 </html>
