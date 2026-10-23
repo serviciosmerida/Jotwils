@@ -36,9 +36,6 @@ select{width:100%;padding:12px 14px;font-size:1rem;background:var(--panel);color
   background-size:5px 5px,5px 5px;background-repeat:no-repeat}
 .controls{display:flex;gap:10px;flex-wrap:wrap}
 .controls select{flex:1;min-width:180px}
-input#search{flex:1;min-width:180px;padding:12px 14px;font-size:0.95rem;background:var(--panel);
-  color:var(--text);border:1px solid var(--border);border-radius:10px}
-input#search::placeholder{color:var(--muted)}
 .count{margin:14px 0 0;color:var(--muted);font-size:0.85rem}
 .count b{color:var(--accent2);font-size:1.05rem}
 .grid{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
@@ -76,7 +73,6 @@ input#search::placeholder{color:var(--muted)}
 
   <div class="controls">
     <select id="brandSelect"><option value="">— Selecciona una marca —</option></select>
-    <input id="search" type="text" placeholder="Buscar marca o código...">
   </div>
   <div class="count" id="count"></div>
   <div class="grid" id="grid"></div>
@@ -255,18 +251,11 @@ Object.keys(brandCounts).sort().forEach(b=>{
   select.appendChild(o);
 });
 
-const search = document.getElementById('search');
-
 function render(){
   const b = select.value;
-  const q = search.value.trim().toLowerCase();
   grid.innerHTML='';
-  const hasFilter = b || q;
-  if(!hasFilter){count.innerHTML='';empty.style.display='block';empty.textContent='Selecciona una marca o escribe para buscar.';return;}
-  const cars = data.filter(c =>
-    (!b || c.marca===b) &&
-    (!q || c.marca.toLowerCase().includes(q) || c.codigo.toLowerCase().includes(q) || c.modelo.toLowerCase().includes(q))
-  );
+  if(!b){count.innerHTML='';empty.style.display='block';empty.textContent='Selecciona una marca para ver tus carros.';return;}
+  const cars = data.filter(c => c.marca===b);
   empty.style.display = cars.length ? 'none' : 'block';
   empty.textContent = 'No hay resultados con ese filtro.';
   count.innerHTML = cars.length ? ("<b>" + cars.length + "</b> carritos encontrados") : "";
@@ -297,7 +286,6 @@ function render(){
   });
 }
 select.addEventListener('change',render);
-search.addEventListener('input',render);
 render();
 
 if('serviceWorker' in navigator){
